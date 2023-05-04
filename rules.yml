@@ -1,0 +1,11 @@
+groups:
+  - name: CurrentInstanceFreeDiskSpace
+    rules:
+      - alert: DiskIsAlmostFull
+        expr: 100 - (100 * node_filesystem_avail_bytes / node_filesystem_size_bytes) > 80
+        for: 1m
+        annotations:
+          title: 'Instance {{ $externalLabels.instance }} has less than 80% free disk space'
+          description: '{{ $externalLabels.instance }} has less than 80% free disk space'
+        labels:
+          severity: 'critical'
